@@ -38,8 +38,4 @@ public class TestSuite implements Serializable {
     public TestSuite() {
         classes = Lists.newArrayList();
     }
-
-    public int getTotalCount() {
-        return this.passCount + this.failCount + this.skipCount;
-    }
 }
