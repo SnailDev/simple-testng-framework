@@ -9,6 +9,8 @@
     <link href="css/brushes/shThemeEclipse.css" rel="stylesheet" type="text/css"/>
 
     <link href="images/favicon.ico" rel="icon" type="image/ico"/>
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/angular.min.js"></script>
     <style type="text/css">
         .padding-none {
             padding-left: 0px;
@@ -116,7 +118,7 @@
                 <div class='panel-body' ng-repeat="capture in captrues">
                     <div id="capture_{{capture.step}}" class="col-md-3">
                         <legend>Capture of <a href="#line_{{capture.step}}">Step {{capture.step}}</a></legend>
-                        <img class="img-responsive" src="{{capture.url}}">
+                        <!--<img class="img-responsive" src="{{capture.url}}">-->
                     </div>
 
                 </div>
@@ -144,8 +146,6 @@
     </div>
 </div>
 
-<script src="js/jquery.min.js" type="text/javascript"></script>
-<script src="js/angular.min.js"></script>
 <script src="js/jquery-ui.min.js" type="text/javascript"></script>
 <script src="js/modernizr.min.js" type="text/javascript"></script>
 <script src="js/md5.min.js" type="text/javascript"></script>
@@ -155,8 +155,8 @@
 <script src="js/init.js" type="text/javascript"></script>
 
 
-<script type="text/javascript" src="js/brushes/shAutoloader.js"></script>
 <script type="text/javascript" src="js/brushes/shCore.js"></script>
+<script type="text/javascript" src="js/brushes/shAutoloader.js"></script>
 <script type="text/javascript" src="js/brushes/shBrushJScript.js"></script>
 <script type="text/javascript" src="js/brushes/shBrushXml.js"></script>
 <script type="text/javascript" src="js/brushes/shBrushXml.js"></script>
