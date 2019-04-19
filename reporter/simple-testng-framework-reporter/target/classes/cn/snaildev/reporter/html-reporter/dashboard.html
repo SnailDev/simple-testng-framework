@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class='no-js' ng-app ng-controller="DataCtrl" lang='en'>
+<head>
+    <title>Dashboard-Simple Test Report</title>
+    <link href="css/application-a07755f5.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link href="images/favicon.ico" rel="icon" type="image/ico"/>
+    <style type="text/css">
+        .padding-none {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .form-group {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body class='main page'>
+<!-- Navbar -->
+<div class='navbar navbar-default' id='navbar'>
+    <a class='navbar-brand' href='dashboard.html'>
+        <i class='icon-beer'></i>
+        Simple Test Report
+    </a>
+</div>
+<div id='wrapper'>
+    <!-- Sidebar -->
+    <section id='sidebar'>
+        <i class='icon-align-justify icon-large' id='toggle'></i>
+        <ul id='dock'>
+            <li class='active launcher'>
+                <i class='icon-dashboard'></i>
+                <a href="dashboard.html">Dashboard</a>
+            </li>
+        </ul>
+        <div data-toggle='tooltip' id='beaker' title='Made by lab2023'></div>
+    </section>
+    <!-- Tools -->
+    <section id='tools'>
+        <ul class='breadcrumb' id='breadcrumb'>
+            <li class='title'>Dashboard</li>
+            <li class='active'><a href="dashboard.html">Index</a></li>
+        </ul>
+    </section>
+    <!-- Content -->
+    <div id='content'>
+        <div class="row">
+            <div class='panel panel-default col-md-10 col-md-offset-1 padding-none'>
+                <div class='panel-heading'>
+                    <i class='icon-info icon-large'></i>
+                    测试结果
+                </div>
+                <div class='panel-body'>
+                    <legend>概况</legend>
+                    <div id="message" class="col-md-6">
+                        <form>
+                            <fieldset>
+                                <div class='form-group'>
+                                    <label class='control-label'>Start Time：</label>
+                                    {{result.jobStartTime}}
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label'>End Time：</label>
+                                    {{result.jobEndTime}}
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label'>Time(s)：</label>
+                                    {{result.jobTotalTime}}
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label'>All：</label>
+                                    {{result.totalCount}}
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label'>Pass：</label>
+                                    {{result.passCount}}
+                                </div>
+                                <div class='form-group'>
+                                    <label class='control-label'>Fail：</label>
+                                    {{result.failCount}}
+                                </div>
+
+                                <div class='form-group'>
+                                    <label class='control-label'> Skip：</label>
+                                    {{result.skipCount}}
+                                </div>
+
+                            </fieldset>
+
+                        </form>
+                    </div>
+                    <div class="col-md-6" ng-controller="ChartCtrl">
+                        <canvas id="chart-area" width="300" height="300" style="width: 300px; height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class='panel panel-default  col-md-offset-1  col-md-10 padding-none'>
+                <div class='panel-heading'>
+                    <i class='icon-info-sign icon-large'></i>
+                    各Suit测试结果
+                </div>
+                <div class='panel-body'>
+                    <table class='table'>
+                        <thead>
+                        <tr>
+                            <th>Suit Name</th>
+                            <th>Total Case</th>
+                            <th>Pass</th>
+                            <th>Fail</th>
+                            <th>Skip</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Time(s)</th>
+                            <th>Pass Rate</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="suite in result.suites">
+                            <td><a href='testcase.html?id={{suite.id}}'><i class='icon-folder-open'></i>{{suite.name}}</a>
+                            </td>
+                            <td>{{suite.totalCount}}</td>
+                            <td>{{suite.passCount}}</td>
+                            <td>{{suite.failCount}}</td>
+                            <td>{{suite.skipCount}}</td>
+                            <td>{{suite.suiteStartTime}}</td>
+                            <td>{{suite.suiteEndtime}}</td>
+                            <td>{{suite.suiteTotaltime}}</td>
+                            <td>{{suite.passRate}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="js/modernizr.min.js" type="text/javascript"></script>
+<script src="js/md5.min.js" type="text/javascript"></script>
+<script src="js/chartnew.js"></script>
+
+<script src="js/application-985b892b.js" type="text/javascript"></script>
+<script src="./js/data.js" type="text/javascript"></script>
+<script src="js/init.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    function ChartCtrl($scope) {
+        var pieData = [
+            {
+                value: $scope.result.failCount,
+                color: "#d9534f",
+                title: "Fail",
+            },
+            {
+                value: $scope.result.passCount,
+                color: "#5cb85c",
+                title: "Pass",
+            },
+            {
+                value: $scope.result.skipCount,
+                color: "#808080",
+                title: "Skip",
+            }
+        ];
+        var elem = document.getElementById("message");
+        var width = elem.offsetWidth;
+        var height = elem.offsetHeight;
+        var size = width < height ? width : height;
+        var canvas = document.getElementById("chart-area");
+        canvas.width = size;
+        canvas.height = size;
+
+        var opt1 = {
+            legend: true,
+            legendBorders: false,
+            inGraphDataShow: false,
+            annotateDisplay: true,
+            graphTitleFontSize: 0,
+            spaceTop: 0,
+            spaceRight: 0,
+        }
+
+        var ctx = document.getElementById("chart-area").getContext("2d");
+        var myPie = new Chart(ctx);
+        myPie.Pie(pieData, opt1, myPie);
+    }
+</script>
+</body>
+</html>
